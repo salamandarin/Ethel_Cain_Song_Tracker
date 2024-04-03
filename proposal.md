@@ -5,6 +5,7 @@
 - Peter Hermanson
 
 ## Goal
+Create a site
 
 ## Plan
 
