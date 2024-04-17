@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <h1>Home / Discography</h1>
+    <h1>Albums</h1>
 </template>
