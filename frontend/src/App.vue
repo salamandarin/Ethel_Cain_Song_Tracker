@@ -7,6 +7,7 @@ import EditData from './EditData.vue'
 
 const routes = {
     '/' : Home,
+    '/listtracks' : ListTracks,
     '/albums' : Albums,
     '/artists' : Artists,
     '/editdata' : EditData,
