@@ -19,7 +19,7 @@ node_modules
 *.dll
 
 # Fortran module files
-*.mod
+#*.mod   if we don't track these files we won't get our go.mod files
 *.smod
 
 # Compiled Static libraries
@@ -30,14 +30,6 @@ node_modules
 
 # Executables
 *.exe
-*.out
-*.app
-
-# CMake build directory
-build
-
-# Apple index
-.DS_Store
 *.out
 *.app
 
