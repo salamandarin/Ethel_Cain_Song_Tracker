@@ -1,13 +1,14 @@
 <script setup>
 import {ref, computed} from 'vue'
 import Home from './Home.vue'
+import Tracks from './Tracks.vue'
 import Albums from './Albums.vue'
 import Artists from './Artists.vue'
 import EditData from './EditData.vue'
 
 const routes = {
     '/' : Home,
-    '/listtracks' : ListTracks,
+    '/tracks' : Tracks,
     '/albums' : Albums,
     '/artists' : Artists,
     '/editdata' : EditData,
@@ -28,7 +29,8 @@ const currentView = computed(() => {
 <template>
     <v-app>
         <v-navigation-drawer color="#382214" v-model="drawer">
-            <v-list-item prepend-icon="mdi-playlist-music" href="#/" title="Tracks" @click="drawer= !drawer"></v-list-item>
+            <v-list-item prepend-icon="mdi-home-circle" href="#/" title="Home" @click="drawer= !drawer"></v-list-item>
+            <v-list-item prepend-icon="mdi-playlist-music" href="#/tracks" title="Tracks" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-album" href="#/albums" title="Albums" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-account-box-multiple" href="#/artists" title="Artists" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-pencil-plus" href="#/editdata" title="Edit Data" @click="drawer= !drawer"></v-list-item>
