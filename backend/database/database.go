@@ -18,14 +18,16 @@ func GetAllTracks(db *sql.DB) []models.Track {
 		var title string
 		var length int
 		var date string
+		var album string
 		var artist string
 
-		row.Scan(&trackId, &title, &length, &date, &artist)
+		row.Scan(&trackId, &title, &length, &date, &album, &artist)
 		track := models.Track{
 			TrackId: trackId,
 			Title:   title,
 			Length:  length,
 			Date:    date,
+			Album: 	 album,
 			Artist:  artist,
 		}
 		tracks = append(tracks, track)
