@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/models"
 	"database/sql"
 	"encoding/json"
 	"github.com/gorilla/mux"
@@ -25,7 +26,9 @@ func main() {
 
 	router.HandleFunc("/", hello).Methods(http.MethodPost)
 	router.HandleFunc("/listtracks", getTracksHandler).Methods(http.MethodPost)
-	//router.HandleFunc("/releasedate", getTrackByReleaseDateHandler).Methods(http.MethodPost)
+	router.HandleFunc("/releasedate", getTrackByReleaseDateHandler).Methods(http.MethodPost)
+	router.HandleFunc("/artistsearch", getTrackByArtistHandler).Methods(http.MethodPost)
+	//router.HandleFunc("/songnamesearch", getTrackBySongNameHandler).Methods(http.MethodPost)
 
 	http.ListenAndServe(":8000", router)
 }
@@ -45,6 +48,50 @@ func getTracksHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	enableCors(&w)
+	w.Write(tracksJson)
+}
+
+func getTrackByReleaseDateHandler(w http.ResponseWriter, r *http.Request) {
+	var track models.Track
+
+	err := json.NewDecoder(r.Body).Decode(&track)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tracks := ethelcaindb.GetTrackByReleaseDate(ethelCainDatabase, track.Date)
+	if len(tracks) == 0 {
+		w.Write([]byte("Date not found"))
+		return
+	}
+	tracksJson, err := json.Marshal(tracks)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(tracksJson)
+}
+
+func getTrackByArtistHandler(w http.ResponseWriter, r *http.Request) {
+	var track models.Track
+
+	err := json.NewDecoder(r.Body).Decode(&track)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tracks := ethelcaindb.GetTrackByArtist(ethelCainDatabase, track.Date)
+	if len(tracks) == 0 {
+		w.Write([]byte("Date not found"))
+		return
+	}
+	tracksJson, err := json.Marshal(tracks)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(tracksJson)
 }
 
