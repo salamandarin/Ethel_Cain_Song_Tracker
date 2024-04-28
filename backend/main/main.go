@@ -28,7 +28,7 @@ func main() {
 	router.HandleFunc("/listtracks", getTracksHandler).Methods(http.MethodPost)
 	router.HandleFunc("/releasedate", getTrackByReleaseDateHandler).Methods(http.MethodPost)
 	router.HandleFunc("/artistsearch", getTrackByArtistHandler).Methods(http.MethodPost)
-	//router.HandleFunc("/songnamesearch", getTrackBySongNameHandler).Methods(http.MethodPost)
+	router.HandleFunc("/songnamesearch", getTrackBySongNameHandler).Methods(http.MethodPost)
 
 	http.ListenAndServe(":8000", router)
 }
@@ -81,7 +81,29 @@ func getTrackByArtistHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tracks := ethelcaindb.GetTrackByArtist(ethelCainDatabase, track.Date)
+	tracks := ethelcaindb.GetTrackByArtist(ethelCainDatabase, track.Artist)
+	if len(tracks) == 0 {
+		w.Write([]byte("Date not found"))
+		return
+	}
+	tracksJson, err := json.Marshal(tracks)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(tracksJson)
+}
+
+func getTrackBySongNameHandler(w http.ResponseWriter, r *http.Request) {
+	var track models.Track
+
+	err := json.NewDecoder(r.Body).Decode(&track)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tracks := ethelcaindb.GetTrackBySongName(ethelCainDatabase, track.Title)
 	if len(tracks) == 0 {
 		w.Write([]byte("Date not found"))
 		return
