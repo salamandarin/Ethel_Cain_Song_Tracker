@@ -28,16 +28,22 @@ const currentView = computed(() => {
 
 <template>
     <v-app>
-        <v-navigation-drawer color="#382214" v-model="drawer">
+        <v-navigation-drawer v-model="drawer">
             <v-list-item prepend-icon="mdi-home-circle" href="#/" title="Home" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-playlist-music" href="#/tracks" title="Tracks" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-album" href="#/albums" title="Albums" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-account-box-multiple" href="#/artists" title="Artists" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-pencil-plus" href="#/editdata" title="Edit Data" @click="drawer= !drawer"></v-list-item>
         </v-navigation-drawer>
-        <v-app-bar color="black">
+        <v-app-bar>
             <v-app-bar-nav-icon @click="drawer= !drawer"></v-app-bar-nav-icon>
-            <v-app-bar-title>Ethel Cain Song Tracker</v-app-bar-title>
+            <v-img
+                src="../public/images/misc/cross_white.png"
+                max-height="40"
+                max-width="40"
+                contain
+            ></v-img>
+            <v-app-bar-title class="m-0">Ethel Cain Song Tracker</v-app-bar-title>
         </v-app-bar>
         <v-main>
             <component :is="currentView"></component>
