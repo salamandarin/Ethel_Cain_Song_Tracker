@@ -1,9 +1,23 @@
 <script setup>
+import {ref} from 'vue'
+
 defineProps({
     title: String,
     date: String,
     image_name: String,
-    tracklist: Array
+})
+
+const tracklist = ref([])
+
+fetch('http://localhost:8000/gettrackbyalbum', {
+    method: 'POST'
+})
+.then(response => response.json())
+.then(data => {
+    console.log(data)
+    data.forEach(track => {
+        tracklist.value.push(track)
+    });
 })
 </script>
 
@@ -16,7 +30,7 @@ defineProps({
         <v-expansion-panels>
             <v-expansion-panel title="Tracklist">
                 <v-expansion-panel-text>
-                    <v-list lines="one">
+                    <v-list density="compact">
                         <v-list-item
                             v-for="track in tracklist"
                             :key="track"
