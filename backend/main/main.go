@@ -27,7 +27,7 @@ func main() {
 	router.HandleFunc("/", hello).Methods(http.MethodPost)
 	router.HandleFunc("/listtracks", getTracksHandler).Methods(http.MethodPost)
 	router.HandleFunc("/listartists", getArtistsHandler).Methods(http.MethodPost)
-	// router.HandleFunc("/listalbums", getAlbumsHandler).Methods(http.MethodPost)
+	router.HandleFunc("/listalbums", getAlbumsHandler).Methods(http.MethodPost)
 
 	router.HandleFunc("/releasedatesearch", getTrackByReleaseDateHandler).Methods(http.MethodPost)
 	router.HandleFunc("/artistsearch", getTrackByArtistHandler).Methods(http.MethodPost)
@@ -66,6 +66,20 @@ func getArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	enableCors(&w)
 	w.Write(artistsJson)
+}
+
+func getAlbumsHandler(w http.ResponseWriter, r *http.Request) {
+	albums := ethelcaindb.GetAllAlbums(ethelCainDatabase)
+
+	albumsJson, err := json.Marshal(albums)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	enableCors(&w)
+	w.Write(albumsJson)
 }
 
 func getTrackByReleaseDateHandler(w http.ResponseWriter, r *http.Request) {

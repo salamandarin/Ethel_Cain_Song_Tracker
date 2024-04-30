@@ -52,7 +52,6 @@ func GetAllArtists(db *sql.DB) []string {
 
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
 		newArtist := artist
-		// if newArtist exists in ARTISTS, then skip, else:
 
 		var sentinel = 0
 		for _, a := range artists {
@@ -65,6 +64,35 @@ func GetAllArtists(db *sql.DB) []string {
 		}
 	}
 	return artists
+}
+
+func GetAllAlbums(db *sql.DB) []string {
+	row, err := db.Query("SELECT * FROM Album")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer row.Close()
+	var albums []string
+	for row.Next() {
+		var albumId int
+		var title string
+		var date string
+		var artist string
+
+		row.Scan(&albumId, &title, &date, &artist)
+		newAlbum := title
+
+		var sentinel = 0
+		for _, a := range albums {
+			if a == newAlbum {
+			sentinel++
+			}
+		}
+		if sentinel == 0 {
+			albums = append(albums, newAlbum)
+		}
+	}
+	return albums
 }
 
 func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Track {
