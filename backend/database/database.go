@@ -35,6 +35,38 @@ func GetAllTracks(db *sql.DB) []models.Track {
 	return tracks
 }
 
+func GetAllArtists(db *sql.DB) []string {
+	row, err := db.Query("SELECT * FROM Track")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer row.Close()
+	var artists []string
+	for row.Next() {
+		var trackId int
+		var title string
+		var length int
+		var date string
+		var album string
+		var artist string
+
+		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		newArtist := artist
+		// if newArtist exists in ARTISTS, then skip, else:
+
+		var sentinel = 0
+		for _, a := range artists {
+			if a == newArtist {
+			sentinel++
+			}
+		}
+		if sentinel == 0 {
+			artists = append(artists, newArtist)
+		}
+	}
+	return artists
+}
+
 func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Track {
 	releaseDate = "%" + releaseDate + "%" // Adds wildcards to beginning and end of searched string
 	row, err := db.Query("SELECT * FROM Track WHERE Date LIKE ?", releaseDate)
