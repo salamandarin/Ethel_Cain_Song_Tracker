@@ -26,6 +26,6 @@ CREATE TABLE IF NOT EXISTS tracks
     track_date TEXT,
     track_album INTEGER,
     track_artist INTEGER,
-    FOREIGN KEY(track_album) REFERENCES album(album_id),
+    FOREIGN KEY(track_album) REFERENCES albums(album_id),
     FOREIGN KEY(track_artist) REFERENCES artists(artist_id)
 );
