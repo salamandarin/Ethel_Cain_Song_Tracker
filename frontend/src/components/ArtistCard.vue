@@ -9,13 +9,14 @@ defineProps({
 
 const tracks = ref([])
 
-fetch('http://localhost:8000//artistsearch', {
+fetch('http://localhost:8000/artistsearch', {
     method: 'POST'
 })
     .then(response => response.json())
     .then(data => {
         console.log(data)
         data.forEach(track => {
+            console.log(data)
             tracks.value.push(track)
         });
     })
