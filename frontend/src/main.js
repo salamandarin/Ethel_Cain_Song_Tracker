@@ -15,9 +15,6 @@ import {aliases, mdi} from 'vuetify/iconsets/mdi'
 const EthelCainDark = {
     dark: true,
     colors: {
-        // background: '#241a10', // color of my EC website
-        // background: '#392613', // first attempt
-        // background: '#382214', // navigation drawer color
         background: '#382413', // middle ground between attempt #1 & navigation drawer
         surface: '#000000',
     },

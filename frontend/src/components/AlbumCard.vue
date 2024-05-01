@@ -25,7 +25,7 @@ fetch('http://localhost:8000/gettrackbyalbum', {
     <v-card>
         <v-card-title>{{ title }}</v-card-title>
         <v-card-subtitle>{{ date }}</v-card-subtitle>
-        <img width="100%" :src="`../../public/images/albums/${image_name}`">
+        <v-img width="100%" :src="`../../public/images/albums/${image_name}`"></v-img>
         <br>
         <v-expansion-panels>
             <v-expansion-panel title="Tracklist">
