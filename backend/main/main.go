@@ -32,6 +32,7 @@ func main() {
 	router.HandleFunc("/searchbyreleasedate", getTrackByReleaseDateHandler).Methods(http.MethodPost)
 	router.HandleFunc("/searchbyartist", getTrackByArtistHandler).Methods(http.MethodPost)
 	router.HandleFunc("/searchbysongname", getTrackBySongNameHandler).Methods(http.MethodPost)
+	router.HandleFunc("/searchbyalbum", getAlbumHandler).Methods(http.MethodPost)
 	router.HandleFunc("/searchfortracksonalbum", getTracksOnAlbumHandler).Methods(http.MethodPost)
 
 	http.ListenAndServe(":8000", router)
@@ -147,6 +148,28 @@ func getTrackBySongNameHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(tracksJson)
+}
+
+func getAlbumHandler(w http.ResponseWriter, r *http.Request) {
+	var album models.Album
+
+	err := json.NewDecoder(r.Body).Decode(&album)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	albums := ethelcaindb.GetAlbum(ethelCainDatabase, album.Title)
+	if len(albums) == 0 {
+		w.Write([]byte("Album not found"))
+		return
+	}
+	albumsJson, err := json.Marshal(albums)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(albumsJson)
 }
 
 func getTracksOnAlbumHandler(w http.ResponseWriter, r *http.Request) {

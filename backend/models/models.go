@@ -5,7 +5,7 @@ type Track struct {
 	Title   string
 	Length  int
 	Date    string
-	Album 	string
+	Album   string
 	Artist  string
 }
 
@@ -13,4 +13,5 @@ type Album struct {
 	AlbumId int
 	Title   string
 	Date    string
+	Artist  string
 }

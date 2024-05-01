@@ -185,6 +185,32 @@ func GetTrackBySongName(db *sql.DB, songName string) []models.Track {
 	return tracks
 }
 
+func GetAlbum(db *sql.DB, album string) []models.Album {
+	album = "%" + album + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM Album WHERE Title LIKE ?", album)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer row.Close()
+	var albums []models.Album
+	for row.Next() {
+		var albumId int
+		var title string
+		var date string
+		var artist string
+
+		row.Scan(&albumId, &title, &date, &artist)
+		album := models.Album{
+			AlbumId: albumId,
+			Title:   title,
+			Date:    date,
+			Artist:  artist,
+		}
+		albums = append(albums, album)
+	}
+	return albums
+}
+
 func GetTrackByAlbum(db *sql.DB, albumName string) []models.Track {
 	albumName = "%" + albumName + "%" // Adds wildcards to beginning and end of searched string
 	row, err := db.Query("SELECT * FROM Track WHERE Album LIKE ?", albumName)
