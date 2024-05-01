@@ -6,237 +6,282 @@ import (
 	"log"
 )
 
-func GetAllTracks(db *sql.DB) []models.Track {
-	row, err := db.Query("SELECT * FROM Track")
+func GetAllTracks(db *sql.DB) []models.Tracks {
+	row, err := db.Query("SELECT * FROM tracks")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
-	var tracks []models.Track
+	var tracks []models.Tracks
 	for row.Next() {
 		var trackId int
 		var title string
 		var length int
 		var date string
-		var album string
-		var artist string
+		var album int
+		var artist int
 
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
-		track := models.Track{
-			TrackId: trackId,
-			Title:   title,
-			Length:  length,
-			Date:    date,
-			Album:   album,
-			Artist:  artist,
+		track := models.Tracks{
+			TrackId:     trackId,
+			TrackTitle:  title,
+			TrackLength: length,
+			TrackDate:   date,
+			Album:       album,
+			Artist:      artist,
 		}
 		tracks = append(tracks, track)
 	}
 	return tracks
 }
 
-func GetAllArtists(db *sql.DB) []string {
-	row, err := db.Query("SELECT * FROM Track")
+func GetAllArtists(db *sql.DB) []models.Artists {
+	row, err := db.Query("SELECT * FROM artists")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
-	var artists []string
+	var artists []models.Artists
 	for row.Next() {
-		var trackId int
-		var title string
-		var length int
-		var date string
-		var album string
-		var artist string
+		var artistId int
+		var artistName string
+		var artistRealName string
 
-		row.Scan(&trackId, &title, &length, &date, &album, &artist)
-		newArtist := artist
-
-		var sentinel = 0
-		for _, a := range artists {
-			if a == newArtist {
-				sentinel++
-			}
+		row.Scan(&artistId, &artistName, &artistRealName)
+		artist := models.Artists{
+			ArtistId:       artistId,
+			ArtistName:     artistName,
+			ArtistRealName: artistRealName,
 		}
-		if sentinel == 0 {
-			artists = append(artists, newArtist)
-		}
+		artists = append(artists, artist)
 	}
 	return artists
 }
 
-func GetAllAlbums(db *sql.DB) []string {
-	row, err := db.Query("SELECT * FROM Album")
+func GetAllAlbums(db *sql.DB) []models.Albums {
+	row, err := db.Query("SELECT * FROM albums")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
-	var albums []string
+	var albums []models.Albums
 	for row.Next() {
 		var albumId int
 		var title string
 		var date string
-		var artist string
+		var artist int
+		var image string
 
-		row.Scan(&albumId, &title, &date, &artist)
-		newAlbum := title
-
-		var sentinel = 0
-		for _, a := range albums {
-			if a == newAlbum {
-				sentinel++
-			}
-		}
-		if sentinel == 0 {
-			albums = append(albums, newAlbum)
-		}
-	}
-	return albums
-}
-
-func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Track {
-	releaseDate = "%" + releaseDate + "%" // Adds wildcards to beginning and end of searched string
-	row, err := db.Query("SELECT * FROM Track WHERE Date LIKE ?", releaseDate)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer row.Close()
-	var tracks []models.Track
-	for row.Next() {
-		var trackId int
-		var title string
-		var length int
-		var date string
-		var album string
-		var artist string
-		row.Scan(&trackId, &title, &length, &date, &album, &artist)
-		track := models.Track{
-			TrackId: trackId,
-			Title:   title,
-			Length:  length,
-			Date:    date,
-			Album:   album,
-			Artist:  artist,
-		}
-		tracks = append(tracks, track)
-	}
-	return tracks
-}
-
-func GetTrackByArtist(db *sql.DB, artist string) []models.Track {
-	artist = "%" + artist + "%" // Adds wildcards to beginning and end of searched string
-	row, err := db.Query("SELECT * FROM Track WHERE Artist LIKE ?", artist)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer row.Close()
-	var tracks []models.Track
-	for row.Next() {
-		var trackId int
-		var title string
-		var length int
-		var date string
-		var album string
-		var artist string
-		row.Scan(&trackId, &title, &length, &date, &album, &artist)
-		track := models.Track{
-			TrackId: trackId,
-			Title:   title,
-			Length:  length,
-			Date:    date,
-			Album:   album,
-			Artist:  artist,
-		}
-		tracks = append(tracks, track)
-	}
-	return tracks
-}
-
-func GetTrackBySongName(db *sql.DB, songName string) []models.Track {
-	songName = "%" + songName + "%" // Adds wildcards to beginning and end of searched string
-	row, err := db.Query("SELECT * FROM Track WHERE Title LIKE ?", songName)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer row.Close()
-	var tracks []models.Track
-	for row.Next() {
-		var trackId int
-		var title string
-		var length int
-		var date string
-		var album string
-		var artist string
-		row.Scan(&trackId, &title, &length, &date, &album, &artist)
-		track := models.Track{
-			TrackId: trackId,
-			Title:   title,
-			Length:  length,
-			Date:    date,
-			Album:   album,
-			Artist:  artist,
-		}
-		tracks = append(tracks, track)
-	}
-	return tracks
-}
-
-func GetAlbum(db *sql.DB, album string) []models.Album {
-	album = "%" + album + "%" // Adds wildcards to beginning and end of searched string
-	row, err := db.Query("SELECT * FROM Album WHERE Title LIKE ?", album)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer row.Close()
-	var albums []models.Album
-	for row.Next() {
-		var albumId int
-		var title string
-		var date string
-		var artist string
-
-		row.Scan(&albumId, &title, &date, &artist)
-		album := models.Album{
-			AlbumId: albumId,
-			Title:   title,
-			Date:    date,
-			Artist:  artist,
+		row.Scan(&albumId, &title, &date, &artist, &image)
+		album := models.Albums{
+			AlbumId:    albumId,
+			AlbumTitle: title,
+			AlbumDate:  date,
+			Artist:     artist,
+			AlbumImage: image,
 		}
 		albums = append(albums, album)
 	}
 	return albums
 }
 
-func GetTrackByAlbum(db *sql.DB, albumName string) []models.Track {
-	albumName = "%" + albumName + "%" // Adds wildcards to beginning and end of searched string
-	row, err := db.Query("SELECT * FROM Track WHERE Album LIKE ?", albumName)
+func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Tracks {
+	releaseDate = "%" + releaseDate + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM tracks WHERE track_date LIKE ?", releaseDate)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer row.Close()
-	var tracks []models.Track
+	var tracks []models.Tracks
 	for row.Next() {
 		var trackId int
 		var title string
 		var length int
 		var date string
-		var album string
-		var artist string
+		var album int
+		var artist int
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
-		track := models.Track{
-			TrackId: trackId,
-			Title:   title,
-			Length:  length,
-			Date:    date,
-			Album:   album,
-			Artist:  artist,
+		track := models.Tracks{
+			TrackId:     trackId,
+			TrackTitle:  title,
+			TrackLength: length,
+			TrackDate:   date,
+			Album:       album,
+			Artist:      artist,
 		}
 		tracks = append(tracks, track)
 	}
 	return tracks
+}
+
+func GetTrackByArtistId(db *sql.DB, artistId []int) []models.Tracks {
+	var tracks []models.Tracks
+	for _, a := range artistId {
+		row, err := db.Query("SELECT * FROM tracks WHERE track_artist = ?", a)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer row.Close()
+		for row.Next() {
+			var trackId int
+			var title string
+			var length int
+			var date string
+			var album int
+			var artist int
+			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			track := models.Tracks{
+				TrackId:     trackId,
+				TrackTitle:  title,
+				TrackLength: length,
+				TrackDate:   date,
+				Album:       album,
+				Artist:      artist,
+			}
+			tracks = append(tracks, track)
+		}
+	}
+	return tracks
+}
+
+func GetTrackBySongName(db *sql.DB, songName string) []models.Tracks {
+	songName = "%" + songName + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM tracks WHERE track_title LIKE ?", songName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+	var tracks []models.Tracks
+	for row.Next() {
+		var trackId int
+		var title string
+		var length int
+		var date string
+		var album int
+		var artist int
+		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		track := models.Tracks{
+			TrackId:     trackId,
+			TrackTitle:  title,
+			TrackLength: length,
+			TrackDate:   date,
+			Album:       album,
+			Artist:      artist,
+		}
+		tracks = append(tracks, track)
+	}
+	return tracks
+}
+
+func GetAlbum(db *sql.DB, album string) []models.Albums {
+	album = "%" + album + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM albums WHERE album_title LIKE ?", album)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer row.Close()
+	var albums []models.Albums
+	for row.Next() {
+		var albumId int
+		var title string
+		var date string
+		var artist int
+		var image string
+
+		row.Scan(&albumId, &title, &date, &artist, &image)
+		album := models.Albums{
+			AlbumId:    albumId,
+			AlbumTitle: title,
+			AlbumDate:  date,
+			Artist:     artist,
+			AlbumImage: image,
+		}
+		albums = append(albums, album)
+	}
+	return albums
+}
+
+func GetTrackByAlbumId(db *sql.DB, albumId []int) []models.Tracks {
+	var tracks []models.Tracks
+	for _, album := range albumId {
+		row, err := db.Query("SELECT * FROM tracks WHERE track_album = ?", album)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer row.Close()
+		for row.Next() {
+			var trackId int
+			var title string
+			var length int
+			var date string
+			var album int
+			var artist int
+			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			track := models.Tracks{
+				TrackId:     trackId,
+				TrackTitle:  title,
+				TrackLength: length,
+				TrackDate:   date,
+				Album:       album,
+				Artist:      artist,
+			}
+			tracks = append(tracks, track)
+		}
+	}
+	return tracks
+}
+
+func GetAlbumId(db *sql.DB, albumName string) []int {
+	albumName = "%" + albumName + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM albums WHERE album_title LIKE ?", albumName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+	var albums []int
+	for row.Next() {
+		var albumId int
+		var title string
+		var date string
+		var artist int
+		var image string
+		row.Scan(&albumId, &title, &date, &artist, &image)
+		album := models.Albums{
+			AlbumId:    albumId,
+			AlbumTitle: title,
+			AlbumDate:  date,
+			Artist:     artist,
+			AlbumImage: image,
+		}
+		albums = append(albums, album.AlbumId)
+	}
+	return albums
+}
+
+func GetArtistId(db *sql.DB, artistName string) []int {
+	artistName = "%" + artistName + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM artists WHERE artist_name LIKE ?", artistName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+	var artists []int
+	for row.Next() {
+		var artistId int
+		var artistsName string
+		var artistRealName string
+
+		row.Scan(&artistId, &artistsName, &artistRealName)
+		artist := models.Artists{
+			ArtistId:       artistId,
+			ArtistName:     artistsName,
+			ArtistRealName: artistRealName,
+		}
+		artists = append(artists, artist.ArtistId)
+	}
+	return artists
 }

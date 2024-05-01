@@ -85,14 +85,14 @@ func getAlbumsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTrackByReleaseDateHandler(w http.ResponseWriter, r *http.Request) {
-	var track models.Track
+	var track models.Tracks
 
 	err := json.NewDecoder(r.Body).Decode(&track)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tracks := ethelcaindb.GetTrackByReleaseDate(ethelCainDatabase, track.Date)
+	tracks := ethelcaindb.GetTrackByReleaseDate(ethelCainDatabase, track.TrackDate)
 	if len(tracks) == 0 {
 		w.Write([]byte("Date not found"))
 		return
@@ -107,16 +107,19 @@ func getTrackByReleaseDateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTrackByArtistHandler(w http.ResponseWriter, r *http.Request) {
-	var track models.Track
+	var artist models.Artists
 
-	err := json.NewDecoder(r.Body).Decode(&track)
+	err := json.NewDecoder(r.Body).Decode(&artist)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tracks := ethelcaindb.GetTrackByArtist(ethelCainDatabase, track.Artist)
+
+	artistId := ethelcaindb.GetArtistId(ethelCainDatabase, artist.ArtistName)
+
+	tracks := ethelcaindb.GetTrackByArtistId(ethelCainDatabase, artistId)
 	if len(tracks) == 0 {
-		w.Write([]byte("Date not found"))
+		w.Write([]byte("Artist not found"))
 		return
 	}
 	tracksJson, err := json.Marshal(tracks)
@@ -129,16 +132,16 @@ func getTrackByArtistHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTrackBySongNameHandler(w http.ResponseWriter, r *http.Request) {
-	var track models.Track
+	var track models.Tracks
 
 	err := json.NewDecoder(r.Body).Decode(&track)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tracks := ethelcaindb.GetTrackBySongName(ethelCainDatabase, track.Title)
+	tracks := ethelcaindb.GetTrackBySongName(ethelCainDatabase, track.TrackTitle)
 	if len(tracks) == 0 {
-		w.Write([]byte("Date not found"))
+		w.Write([]byte("Track not found"))
 		return
 	}
 	tracksJson, err := json.Marshal(tracks)
@@ -151,14 +154,14 @@ func getTrackBySongNameHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getAlbumHandler(w http.ResponseWriter, r *http.Request) {
-	var album models.Album
+	var album models.Albums
 
 	err := json.NewDecoder(r.Body).Decode(&album)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	albums := ethelcaindb.GetAlbum(ethelCainDatabase, album.Title)
+	albums := ethelcaindb.GetAlbum(ethelCainDatabase, album.AlbumTitle)
 	if len(albums) == 0 {
 		w.Write([]byte("Album not found"))
 		return
@@ -173,16 +176,19 @@ func getAlbumHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTracksOnAlbumHandler(w http.ResponseWriter, r *http.Request) {
-	var track models.Track
+	var album models.Albums
 
-	err := json.NewDecoder(r.Body).Decode(&track)
+	err := json.NewDecoder(r.Body).Decode(&album)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tracks := ethelcaindb.GetTrackByAlbum(ethelCainDatabase, track.Album)
+
+	albumId := ethelcaindb.GetAlbumId(ethelCainDatabase, album.AlbumTitle)
+
+	tracks := ethelcaindb.GetTrackByAlbumId(ethelCainDatabase, albumId)
 	if len(tracks) == 0 {
-		w.Write([]byte("Date not found"))
+		w.Write([]byte("Track not found"))
 		return
 	}
 	tracksJson, err := json.Marshal(tracks)
