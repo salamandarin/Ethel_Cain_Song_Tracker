@@ -8,7 +8,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.22
 )
 
-require backend/models v0.0.0-00010101000000-000000000000 // indirect
+require backend/models v0.0.0-00010101000000-000000000000
 
 replace backend/models => ../models
 
