@@ -56,7 +56,7 @@ func GetAllArtists(db *sql.DB) []string {
 		var sentinel = 0
 		for _, a := range artists {
 			if a == newArtist {
-			sentinel++
+				sentinel++
 			}
 		}
 		if sentinel == 0 {
@@ -85,7 +85,7 @@ func GetAllAlbums(db *sql.DB) []string {
 		var sentinel = 0
 		for _, a := range albums {
 			if a == newAlbum {
-			sentinel++
+				sentinel++
 			}
 		}
 		if sentinel == 0 {
@@ -158,6 +158,36 @@ func GetTrackByArtist(db *sql.DB, artist string) []models.Track {
 func GetTrackBySongName(db *sql.DB, songName string) []models.Track {
 	songName = "%" + songName + "%" // Adds wildcards to beginning and end of searched string
 	row, err := db.Query("SELECT * FROM Track WHERE Title LIKE ?", songName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+	var tracks []models.Track
+	for row.Next() {
+		var trackId int
+		var title string
+		var length int
+		var date string
+		var album string
+		var artist string
+		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		track := models.Track{
+			TrackId: trackId,
+			Title:   title,
+			Length:  length,
+			Date:    date,
+			Album:   album,
+			Artist:  artist,
+		}
+		tracks = append(tracks, track)
+	}
+	return tracks
+}
+
+func GetTrackByAlbum(db *sql.DB, albumName string) []models.Track {
+	albumName = "%" + albumName + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM Track WHERE Album LIKE ?", albumName)
 	if err != nil {
 		log.Fatal(err)
 	}
