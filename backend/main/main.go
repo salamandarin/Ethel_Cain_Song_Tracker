@@ -29,9 +29,9 @@ func main() {
 	router.HandleFunc("/listartists", getArtistsHandler).Methods(http.MethodPost)
 	router.HandleFunc("/listalbums", getAlbumsHandler).Methods(http.MethodPost)
 
-	router.HandleFunc("/releasedatesearch", getTrackByReleaseDateHandler).Methods(http.MethodPost)
-	router.HandleFunc("/artistsearch", getTrackByArtistHandler).Methods(http.MethodPost)
-	router.HandleFunc("/songnamesearch", getTrackBySongNameHandler).Methods(http.MethodPost)
+	router.HandleFunc("/searchbyreleasedate", getTrackByReleaseDateHandler).Methods(http.MethodPost)
+	router.HandleFunc("/searchbyartist", getTrackByArtistHandler).Methods(http.MethodPost)
+	router.HandleFunc("/searchbysongname", getTrackBySongNameHandler).Methods(http.MethodPost)
 
 	http.ListenAndServe(":8000", router)
 }
