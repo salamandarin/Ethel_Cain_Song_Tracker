@@ -43,7 +43,7 @@ const currentView = computed(() => {
                 max-width="40"
                 contain
             ></v-img>
-            <v-app-bar-title class="m-0">Ethel Cain Song Tracker</v-app-bar-title>
+            <v-app-bar-title>Ethel Cain Song Tracker</v-app-bar-title>
         </v-app-bar>
         <v-main>
             <component :is="currentView"></component>
