@@ -1,32 +1,32 @@
 <script setup>
 import {ref} from 'vue'
 
-defineProps({
-    name: String,
-    image_name: String,
-    description: String,
+const props = defineProps({
+    artist_name: String,
+    real_name: String,
 })
 
 const tracks = ref([])
 
-fetch('http://localhost:8000/artistsearch', {
-    method: 'POST'
-})
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
-        data.forEach(track => {
-            console.log(data)
-            tracks.value.push(track)
-        });
+fetch('http://localhost:8000/searchbyartist', {
+    method: 'POST',
+    body: JSON.stringify({
+        "ArtistName" : props.artist_name
     })
+})
+.then(response => response.json())
+.then(data => {
+    data.forEach(track => {
+        tracks.value.push(track)
+    });
+})
 </script>
 
 <template>
     <v-card>
-        <v-card-title>{{ name }}</v-card-title>
-        <v-card-subtitle>{{ description }}</v-card-subtitle>
-        <v-img width="100%" :src="`../../public/images/artists/${image_name}`"></v-img>
+        <v-card-title>{{ artist_name }}</v-card-title>
+        <v-card-subtitle>{{ real_name }}</v-card-subtitle>
+<!--        <v-img width="100%" :src="`../../public/images/artists/${image_name}`"></v-img>-->
         <br>
         <v-expansion-panels>
             <v-expansion-panel title="Tracks">
@@ -34,8 +34,8 @@ fetch('http://localhost:8000/artistsearch', {
                     <v-list density="compact">
                         <v-list-item
                             v-for="track in tracks"
-                            :key="track"
-                            :title="track"
+                            :key="track.TrackId"
+                            :title="track.TrackTitle"
                         ></v-list-item>
                     </v-list>
                 </v-expansion-panel-text>
