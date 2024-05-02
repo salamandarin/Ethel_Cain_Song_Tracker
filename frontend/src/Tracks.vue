@@ -8,7 +8,6 @@ fetch('http://localhost:8000/listtracks', {
 })
 .then(response => response.json())
 .then(data => {
-    console.log(data)
     data.forEach(track => {
         tracks.value.push(track)
     });

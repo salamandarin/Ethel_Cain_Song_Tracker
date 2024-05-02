@@ -101,7 +101,7 @@ const albums = ref([
 </script>
 
 <template>
-    <v-container w-100>
+    <v-container>
         <h1>Albums</h1>
         <v-row>
             <v-col cols="3" v-for="album in albums" :key="album.AlbumId">
@@ -109,4 +109,4 @@ const albums = ref([
             </v-col>
         </v-row>
     </v-container>
-</template> v
+</template>
