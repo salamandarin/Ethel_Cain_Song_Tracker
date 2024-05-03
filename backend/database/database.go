@@ -18,15 +18,19 @@ func GetAllTracks(db *sql.DB) []models.Tracks {
 		var title string
 		var length int
 		var date string
+		var image string
+		var notes string
 		var album int
 		var artist int
 
-		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		row.Scan(&trackId, &title, &length, &date, &image, &notes, &album, &artist)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
 			TrackLength: length,
 			TrackDate:   date,
+			TrackImage:  image,
+			TrackNotes:  notes,
 			Album:       album,
 			Artist:      artist,
 		}
@@ -46,12 +50,16 @@ func GetAllArtists(db *sql.DB) []models.Artists {
 		var artistId int
 		var artistName string
 		var artistRealName string
+		var artistImage string
+		var artistDescription string
 
-		row.Scan(&artistId, &artistName, &artistRealName)
+		row.Scan(&artistId, &artistName, &artistRealName, &artistImage, &artistDescription)
 		artist := models.Artists{
-			ArtistId:       artistId,
-			ArtistName:     artistName,
-			ArtistRealName: artistRealName,
+			ArtistId:          artistId,
+			ArtistName:        artistName,
+			ArtistRealName:    artistRealName,
+			ArtistImage:       artistImage,
+			ArtistDescription: artistDescription,
 		}
 		artists = append(artists, artist)
 	}
@@ -69,16 +77,18 @@ func GetAllAlbums(db *sql.DB) []models.Albums {
 		var albumId int
 		var title string
 		var date string
-		var artist int
 		var image string
+		var description string
+		var artist int
 
-		row.Scan(&albumId, &title, &date, &artist, &image)
+		row.Scan(&albumId, &title, &date, &image, &description, &artist)
 		album := models.Albums{
-			AlbumId:    albumId,
-			AlbumTitle: title,
-			AlbumDate:  date,
-			Artist:     artist,
-			AlbumImage: image,
+			AlbumId:          albumId,
+			AlbumTitle:       title,
+			AlbumDate:        date,
+			AlbumImage:       image,
+			AlbumDescription: description,
+			Artist:           artist,
 		}
 		albums = append(albums, album)
 	}
@@ -99,14 +109,18 @@ func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Tracks {
 		var title string
 		var length int
 		var date string
+		var image string
+		var notes string
 		var album int
 		var artist int
-		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		row.Scan(&trackId, &title, &length, &date, &image, &notes, &album, &artist)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
 			TrackLength: length,
 			TrackDate:   date,
+			TrackImage:  image,
+			TrackNotes:  notes,
 			Album:       album,
 			Artist:      artist,
 		}
@@ -128,14 +142,18 @@ func GetTrackByArtistId(db *sql.DB, artistId []int) []models.Tracks {
 			var title string
 			var length int
 			var date string
+			var image string
+			var notes string
 			var album int
 			var artist int
-			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			row.Scan(&trackId, &title, &length, &date, &image, &notes, &album, &artist)
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
 				TrackLength: length,
 				TrackDate:   date,
+				TrackImage:  image,
+				TrackNotes:  notes,
 				Album:       album,
 				Artist:      artist,
 			}
@@ -159,14 +177,18 @@ func GetTrackBySongName(db *sql.DB, songName string) []models.Tracks {
 		var title string
 		var length int
 		var date string
+		var image string
+		var notes string
 		var album int
 		var artist int
-		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		row.Scan(&trackId, &title, &length, &date, &image, &notes, &album, &artist)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
 			TrackLength: length,
 			TrackDate:   date,
+			TrackImage:  image,
+			TrackNotes:  notes,
 			Album:       album,
 			Artist:      artist,
 		}
@@ -187,16 +209,18 @@ func GetAlbum(db *sql.DB, album string) []models.Albums {
 		var albumId int
 		var title string
 		var date string
-		var artist int
 		var image string
+		var description string
+		var artist int
 
-		row.Scan(&albumId, &title, &date, &artist, &image)
+		row.Scan(&albumId, &title, &date, &image, &description, &artist)
 		album := models.Albums{
-			AlbumId:    albumId,
-			AlbumTitle: title,
-			AlbumDate:  date,
-			Artist:     artist,
-			AlbumImage: image,
+			AlbumId:          albumId,
+			AlbumTitle:       title,
+			AlbumDate:        date,
+			AlbumImage:       image,
+			AlbumDescription: description,
+			Artist:           artist,
 		}
 		albums = append(albums, album)
 	}
@@ -216,14 +240,18 @@ func GetTrackByAlbumId(db *sql.DB, albumId []int) []models.Tracks {
 			var title string
 			var length int
 			var date string
+			var image string
+			var notes string
 			var album int
 			var artist int
-			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			row.Scan(&trackId, &title, &length, &date, &image, &notes, &album, &artist)
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
 				TrackLength: length,
 				TrackDate:   date,
+				TrackImage:  image,
+				TrackNotes:  notes,
 				Album:       album,
 				Artist:      artist,
 			}
@@ -246,15 +274,18 @@ func GetAlbumId(db *sql.DB, albumName string) []int {
 		var albumId int
 		var title string
 		var date string
-		var artist int
 		var image string
-		row.Scan(&albumId, &title, &date, &artist, &image)
+		var description string
+		var artist int
+
+		row.Scan(&albumId, &title, &date, &image, &description, &artist)
 		album := models.Albums{
-			AlbumId:    albumId,
-			AlbumTitle: title,
-			AlbumDate:  date,
-			Artist:     artist,
-			AlbumImage: image,
+			AlbumId:          albumId,
+			AlbumTitle:       title,
+			AlbumDate:        date,
+			AlbumImage:       image,
+			AlbumDescription: description,
+			Artist:           artist,
 		}
 		albums = append(albums, album.AlbumId)
 	}
@@ -272,14 +303,18 @@ func GetArtistId(db *sql.DB, artistName string) []int {
 	var artists []int
 	for row.Next() {
 		var artistId int
-		var artistsName string
+		var artistName string
 		var artistRealName string
+		var artistImage string
+		var artistDescription string
 
-		row.Scan(&artistId, &artistsName, &artistRealName)
+		row.Scan(&artistId, &artistName, &artistRealName, &artistImage, &artistDescription)
 		artist := models.Artists{
-			ArtistId:       artistId,
-			ArtistName:     artistsName,
-			ArtistRealName: artistRealName,
+			ArtistId:          artistId,
+			ArtistName:        artistName,
+			ArtistRealName:    artistRealName,
+			ArtistImage:       artistImage,
+			ArtistDescription: artistDescription,
 		}
 		artists = append(artists, artist.ArtistId)
 	}
