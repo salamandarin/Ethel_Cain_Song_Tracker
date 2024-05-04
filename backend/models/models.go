@@ -17,7 +17,7 @@ type Artists struct {
 type Tracks struct {
 	TrackId     int
 	TrackTitle  string
-	TrackLength *int
+	TrackLength string
 	TrackDate   *string
 	Album       *int
 	Artist      *int
