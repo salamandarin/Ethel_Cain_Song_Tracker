@@ -1,6 +1,6 @@
-# frontend
+# Ethel Cain Song Tracker Database and Backend setup
 
-This template should help get you started developing with Vue 3 in Vite.
+- The frontend is written in [VueJs](https://vuejs.org/), using [Veutify](https://vuetifyjs.com)
 
 ## Recommended IDE Setup
 
