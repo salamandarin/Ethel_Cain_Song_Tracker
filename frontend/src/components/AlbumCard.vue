@@ -1,7 +1,7 @@
 <script setup>
 import {ref} from 'vue'
 
-defineProps({
+const props = defineProps({
     title: String,
     date: String,
     image_name: String,
@@ -9,12 +9,14 @@ defineProps({
 
 const tracklist = ref([])
 
-fetch('http://localhost:8000/gettrackbyalbum', {
-    method: 'POST'
+fetch('http://localhost:8000/searchfortracksonalbum', {
+    method: 'POST',
+    body: JSON.stringify({
+        "AlbumTitle" : props.title
+    })
 })
 .then(response => response.json())
 .then(data => {
-    console.log(data)
     data.forEach(track => {
         tracklist.value.push(track)
     });
@@ -23,18 +25,18 @@ fetch('http://localhost:8000/gettrackbyalbum', {
 
 <template>
     <v-card>
-        <v-card-title>{{ title }}</v-card-title>
-        <v-card-subtitle>{{ date }}</v-card-subtitle>
+        <v-card-title class="font-weight-bold">{{ title }}</v-card-title>
+        <v-card-subtitle class="font-weight-bold">{{ date }}</v-card-subtitle>
         <v-img width="100%" :src="`../../public/images/albums/${image_name}`"></v-img>
         <br>
         <v-expansion-panels>
-            <v-expansion-panel title="Tracklist">
+            <v-expansion-panel class="font-weight-bold" title="Tracklist">
                 <v-expansion-panel-text>
                     <v-list density="compact">
                         <v-list-item
                             v-for="track in tracklist"
-                            :key="track"
-                            :title="track"
+                            :key="track.TrackId"
+                            :title="track.TrackTitle"
                         ></v-list-item>
                     </v-list>
                 </v-expansion-panel-text>
