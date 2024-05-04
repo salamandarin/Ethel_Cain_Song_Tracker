@@ -3,6 +3,7 @@ package ethelcaindb
 import (
 	"backend/models"
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -22,10 +23,11 @@ func GetAllTracks(db *sql.DB) []models.Tracks {
 		var artist *int
 
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		lengthInStr := secondsToMinutes(length)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
-			TrackLength: length,
+			TrackLength: lengthInStr,
 			TrackDate:   date,
 			Album:       album,
 			Artist:      artist,
@@ -102,10 +104,11 @@ func GetTrackByReleaseDate(db *sql.DB, releaseDate *string) []models.Tracks {
 		var album *int
 		var artist *int
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		lengthInStr := secondsToMinutes(length)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
-			TrackLength: length,
+			TrackLength: lengthInStr,
 			TrackDate:   date,
 			Album:       album,
 			Artist:      artist,
@@ -131,10 +134,11 @@ func GetTrackByArtistId(db *sql.DB, artistId []int) []models.Tracks {
 			var album *int
 			var artist *int
 			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			lengthInStr := secondsToMinutes(length)
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
-				TrackLength: length,
+				TrackLength: lengthInStr,
 				TrackDate:   date,
 				Album:       album,
 				Artist:      artist,
@@ -162,10 +166,11 @@ func GetTrackBySongName(db *sql.DB, songName string) []models.Tracks {
 		var album *int
 		var artist *int
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		lengthInStr := secondsToMinutes(length)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
-			TrackLength: length,
+			TrackLength: lengthInStr,
 			TrackDate:   date,
 			Album:       album,
 			Artist:      artist,
@@ -219,10 +224,11 @@ func GetTrackByAlbumId(db *sql.DB, albumId []int) []models.Tracks {
 			var album *int
 			var artist *int
 			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			lengthInStr := secondsToMinutes(length)
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
-				TrackLength: length,
+				TrackLength: lengthInStr,
 				TrackDate:   date,
 				Album:       album,
 				Artist:      artist,
@@ -284,4 +290,18 @@ func GetArtistId(db *sql.DB, artistName string) []int {
 		artists = append(artists, artist.ArtistId)
 	}
 	return artists
+}
+
+func secondsToMinutes(inSeconds *int) string {
+	var str string
+	if inSeconds != nil {
+		var positiveSeconds int
+		positiveSeconds = *inSeconds
+		minutes := positiveSeconds / 60
+		seconds := positiveSeconds % 60
+		str = fmt.Sprintf("%d:%d", minutes, seconds)
+	} else {
+		str = fmt.Sprintf("00:00")
+	}
+	return str
 }
