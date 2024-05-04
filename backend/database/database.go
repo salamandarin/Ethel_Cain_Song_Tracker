@@ -3,6 +3,7 @@ package ethelcaindb
 import (
 	"backend/models"
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -16,16 +17,17 @@ func GetAllTracks(db *sql.DB) []models.Tracks {
 	for row.Next() {
 		var trackId int
 		var title string
-		var length int
-		var date string
-		var album int
-		var artist int
+		var length *int
+		var date *string
+		var album *int
+		var artist *int
 
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		lengthInStr := secondsToMinutes(length)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
-			TrackLength: length,
+			TrackLength: lengthInStr,
 			TrackDate:   date,
 			Album:       album,
 			Artist:      artist,
@@ -45,7 +47,7 @@ func GetAllArtists(db *sql.DB) []models.Artists {
 	for row.Next() {
 		var artistId int
 		var artistName string
-		var artistRealName string
+		var artistRealName *string
 
 		row.Scan(&artistId, &artistName, &artistRealName)
 		artist := models.Artists{
@@ -68,9 +70,9 @@ func GetAllAlbums(db *sql.DB) []models.Albums {
 	for row.Next() {
 		var albumId int
 		var title string
-		var date string
-		var artist int
-		var image string
+		var date *string
+		var artist *int
+		var image *string
 
 		row.Scan(&albumId, &title, &date, &artist, &image)
 		album := models.Albums{
@@ -85,9 +87,9 @@ func GetAllAlbums(db *sql.DB) []models.Albums {
 	return albums
 }
 
-func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Tracks {
-	releaseDate = "%" + releaseDate + "%" // Adds wildcards to beginning and end of searched string
-	row, err := db.Query("SELECT * FROM tracks WHERE track_date LIKE ?", releaseDate)
+func GetTrackByReleaseDate(db *sql.DB, releaseDate *string) []models.Tracks {
+	*releaseDate = "%" + *releaseDate + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM tracks WHERE track_date LIKE ?", *releaseDate)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -97,15 +99,16 @@ func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Tracks {
 	for row.Next() {
 		var trackId int
 		var title string
-		var length int
-		var date string
-		var album int
-		var artist int
+		var length *int
+		var date *string
+		var album *int
+		var artist *int
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		lengthInStr := secondsToMinutes(length)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
-			TrackLength: length,
+			TrackLength: lengthInStr,
 			TrackDate:   date,
 			Album:       album,
 			Artist:      artist,
@@ -126,15 +129,16 @@ func GetTrackByArtistId(db *sql.DB, artistId []int) []models.Tracks {
 		for row.Next() {
 			var trackId int
 			var title string
-			var length int
-			var date string
-			var album int
-			var artist int
+			var length *int
+			var date *string
+			var album *int
+			var artist *int
 			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			lengthInStr := secondsToMinutes(length)
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
-				TrackLength: length,
+				TrackLength: lengthInStr,
 				TrackDate:   date,
 				Album:       album,
 				Artist:      artist,
@@ -157,15 +161,16 @@ func GetTrackBySongName(db *sql.DB, songName string) []models.Tracks {
 	for row.Next() {
 		var trackId int
 		var title string
-		var length int
-		var date string
-		var album int
-		var artist int
+		var length *int
+		var date *string
+		var album *int
+		var artist *int
 		row.Scan(&trackId, &title, &length, &date, &album, &artist)
+		lengthInStr := secondsToMinutes(length)
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
-			TrackLength: length,
+			TrackLength: lengthInStr,
 			TrackDate:   date,
 			Album:       album,
 			Artist:      artist,
@@ -186,9 +191,9 @@ func GetAlbum(db *sql.DB, album string) []models.Albums {
 	for row.Next() {
 		var albumId int
 		var title string
-		var date string
-		var artist int
-		var image string
+		var date *string
+		var artist *int
+		var image *string
 
 		row.Scan(&albumId, &title, &date, &artist, &image)
 		album := models.Albums{
@@ -214,15 +219,16 @@ func GetTrackByAlbumId(db *sql.DB, albumId []int) []models.Tracks {
 		for row.Next() {
 			var trackId int
 			var title string
-			var length int
-			var date string
-			var album int
-			var artist int
+			var length *int
+			var date *string
+			var album *int
+			var artist *int
 			row.Scan(&trackId, &title, &length, &date, &album, &artist)
+			lengthInStr := secondsToMinutes(length)
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
-				TrackLength: length,
+				TrackLength: lengthInStr,
 				TrackDate:   date,
 				Album:       album,
 				Artist:      artist,
@@ -245,9 +251,9 @@ func GetAlbumId(db *sql.DB, albumName string) []int {
 	for row.Next() {
 		var albumId int
 		var title string
-		var date string
-		var artist int
-		var image string
+		var date *string
+		var artist *int
+		var image *string
 		row.Scan(&albumId, &title, &date, &artist, &image)
 		album := models.Albums{
 			AlbumId:    albumId,
@@ -273,7 +279,7 @@ func GetArtistId(db *sql.DB, artistName string) []int {
 	for row.Next() {
 		var artistId int
 		var artistsName string
-		var artistRealName string
+		var artistRealName *string
 
 		row.Scan(&artistId, &artistsName, &artistRealName)
 		artist := models.Artists{
@@ -284,4 +290,18 @@ func GetArtistId(db *sql.DB, artistName string) []int {
 		artists = append(artists, artist.ArtistId)
 	}
 	return artists
+}
+
+func secondsToMinutes(inSeconds *int) string {
+	var str string
+	if inSeconds != nil {
+		var positiveSeconds int
+		positiveSeconds = *inSeconds
+		minutes := positiveSeconds / 60
+		seconds := positiveSeconds % 60
+		str = fmt.Sprintf("%d:%d", minutes, seconds)
+	} else {
+		str = fmt.Sprintf("00:00")
+	}
+	return str
 }

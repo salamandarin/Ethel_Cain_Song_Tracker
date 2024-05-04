@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS albums
 (
     album_id INTEGER PRIMARY KEY,
     album_title TEXT NOT NULL,
-    album_date TEXT NOT NULL,
+    album_date TEXT,
     album_artist INTEGER,
     album_image TEXT,
     FOREIGN KEY(album_artist) REFERENCES artists(artist_id)
