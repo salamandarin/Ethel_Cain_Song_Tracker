@@ -23,8 +23,8 @@ fetch('http://localhost:8000/listtracks', {
     >
         <thead>
         <tr>
-            <th> </th>
-            <th>Title</th>
+            <th></th>
+            <th class="text-center">Title</th>
             <th>Length</th>
             <th>Date</th>
             </tr>
