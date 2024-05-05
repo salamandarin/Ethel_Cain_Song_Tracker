@@ -1,76 +1,41 @@
 <script setup>
 import {ref} from 'vue'
+import TrackRow from './components/TrackRow.vue'
 
 const tracks = ref([])
 
 fetch('http://localhost:8000/listtracks', {
     method: 'POST'
 })
-.then(response => response.json())
-.then(data => {
-    data.forEach(track => {
-        console.log(track)
-        tracks.value.push(track)
-    });
-})
-
-const expanded = ref([])
-const search = ref([])
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(track => {
+            tracks.value.push(track)
+        });
+    })
 </script>
 
 <template>
     <v-table
         density="compact"
-        theme="dark"
-        height="calc(100vh - 64px)" fixed-header
-    >  <!-- 64px is height of app-bar -->
+        height="calc(100vh - 100px)" fixed-header
+        class="mx-16 my-4 rounded-lg"
+    >
         <thead>
-            <tr>
-                <th>Track</th>
-                <th>Length</th>
-                <th>Date</th>
-                <th>Album</th>
-                <th>Artist</th>
+        <tr>
+            <th> </th>
+            <th>Title</th>
+            <th>Length</th>
+            <th>Date</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="track in tracks" :key="track.TrackId">
-                <td>{{ track.TrackTitle }}</td>
-                <td>{{ track.TrackLength }}</td>
-                <td>{{ track.TrackDate }}</td>
-                <td>{{ track.Album }}</td>
-                <td>{{ track.Artist }}</td>
-            </tr>
+            <TrackRow v-for="track in tracks" :key="track.TrackId"
+                :title="track.TrackTitle"
+                :length="track.TrackLength"
+                :date="track.TrackDate"
+                :image_name="track.TrackImage"
+            ></TrackRow>
         </tbody>
     </v-table>
-
-
-    <v-container>
-        <v-text-field
-            v-model="search"
-            label="Search"
-            prepend-inner-icon="mdi-magnify"
-            variant="outlined"
-            clearable
-            density="compact"
-            hide-details
-            single-line
-        ></v-text-field>
-        <v-data-table
-            v-model:expanded="expanded"
-            :items="tracks"
-            :search="search"
-            item-value="TrackId"
-            density="compact"
-            show-expand
-        >
-            <template v-slot:expanded-row="{ columns, item }">
-                <tr>
-                    <td :colspan="columns.length">
-                        &lt; put notes about {{ item.Title }} here &gt;</td>
-                </tr>
-            </template>
-        </v-data-table>
-    </v-container>
-
 </template>
