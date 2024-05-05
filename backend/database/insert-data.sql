@@ -217,7 +217,7 @@ VALUES
     ("For Sure",NULL,NULL,NULL,NULL),
     ("Powerline Valley (corrupted version)","2021-07-15",473,NULL,1),
     ("Givenchy FW22 Score","1905-07-14",129,NULL,1),
-    ("Sunday Morning - Demo","album date",257,3,1),
+    ("Sunday Morning - Demo","2019-12-01",257,3,1),
     ("God's Country (early demo)","2020-09-25",259,NULL,1),
     ("crush (acapella)","2021-11-24",207,NULL,1),
     ("two children in a motel (old demo)","2020-02-19",242,NULL,1),
