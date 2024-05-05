@@ -3,6 +3,7 @@ package ethelcaindb
 import (
 	"backend/models"
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -99,9 +100,9 @@ func GetAllAlbums(db *sql.DB) []models.Albums {
 	return albums
 }
 
-func GetTrackByReleaseDate(db *sql.DB, releaseDate string) []models.Tracks {
-	releaseDate = "%" + releaseDate + "%" // Adds wildcards to beginning and end of searched string
-	row, err := db.Query("SELECT * FROM tracks WHERE track_date LIKE ?", releaseDate)
+func GetTrackByReleaseDate(db *sql.DB, releaseDate *string) []models.Tracks {
+	*releaseDate = "%" + *releaseDate + "%" // Adds wildcards to beginning and end of searched string
+	row, err := db.Query("SELECT * FROM tracks WHERE track_date LIKE ?", *releaseDate)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -321,9 +322,9 @@ func GetArtistId(db *sql.DB, artistName string) []int {
 	for row.Next() {
 		var artistId int
 		var artistName string
-		var artistRealName string
-		var artistImage string
-		var artistDescription string
+		var artistRealName *string
+		var artistImage *string
+		var artistDescription *string
 
 		row.Scan(&artistId, &artistName, &artistRealName, &artistImage, &artistDescription)
 		artist := models.Artists{
@@ -336,4 +337,18 @@ func GetArtistId(db *sql.DB, artistName string) []int {
 		artists = append(artists, artist.ArtistId)
 	}
 	return artists
+}
+
+func secondsToMinutes(inSeconds *int) string {
+	var str string
+	if inSeconds != nil {
+		var positiveSeconds int
+		positiveSeconds = *inSeconds
+		minutes := positiveSeconds / 60
+		seconds := positiveSeconds % 60
+		str = fmt.Sprintf("%d:%d", minutes, seconds)
+	} else {
+		str = fmt.Sprintf("00:00")
+	}
+	return str
 }
