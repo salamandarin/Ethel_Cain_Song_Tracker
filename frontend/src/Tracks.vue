@@ -2,8 +2,10 @@
 import { ref, computed } from 'vue'
 import TrackRow from './components/TrackRow.vue'
 
-const tracks = ref([])
+// image size (change this value to update)
+const imageSize = ref('6vh')
 
+const tracks = ref([])
 fetch('http://localhost:8000/listtracks', {
     method: 'POST'
 })
@@ -38,7 +40,7 @@ function songSearch() {
         });
     })
     .catch(error => {
-        searchError.value = `No tracks with the title '${searchInput.value.trim()}' were found`
+        searchError.value = `No tracks matching '${searchInput.value.trim()}' were found`
     });
 }
 
@@ -63,6 +65,7 @@ function resetTable() {
 </script>
 
 <template>
+    <!--  search box  -->
     <v-container class="mt-2">
         <v-row>
             <v-text-field
@@ -81,14 +84,15 @@ function resetTable() {
         </v-row>
     </v-container>
 
+    <!--  tracks table  -->
     <v-table
-        density="compact"
-        height="calc(100vh - 160px)" fixed-header
+        height="calc(100vh - 160px)"
+        fixed-header
         class="mx-16 mb-4 rounded-lg"
     >
         <thead>
         <tr>
-            <th></th>
+            <th :style="{ width: imageSize }"></th>
             <th class="text-center">Title</th>
             <th>Length</th>
             <th>Date</th>
@@ -100,6 +104,7 @@ function resetTable() {
                 :length="track.TrackLength"
                 :date="track.TrackDate"
                 :image_name="track.TrackImage"
+                :image_size="imageSize"
             ></TrackRow>
         </tbody>
     </v-table>

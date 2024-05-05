@@ -18,7 +18,7 @@ fetch('http://localhost:8000/listalbums', {
 </script>
 
 <template>
-    <v-container>
+    <v-container class="bigger-text">
         <h1>Albums</h1>
         <v-row>
             <v-col cols="4" v-for="album in albums" :key="album.AlbumId">
@@ -27,3 +27,9 @@ fetch('http://localhost:8000/listalbums', {
         </v-row>
     </v-container>
 </template>
+
+<style scoped>
+.bigger-text {
+    font-size: 0px;
+}
+</style>
