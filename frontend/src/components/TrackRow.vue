@@ -29,7 +29,7 @@ const props = defineProps({
 
         <!-- other variables -->
         <td>{{ title }}</td>
-        <td>{{ length }}</td>
-        <td>{{ date }}</td>
+        <td class="text-center">{{ length }}</td>
+        <td class="text-center">{{ date }}</td>
     </tr>
 </template>

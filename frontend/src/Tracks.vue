@@ -80,7 +80,10 @@ function resetTable() {
                 class="mr-3"
             ></v-text-field>
 
-            <v-btn class="bg-grey-darken-3" @click="resetTable">Reset Table</v-btn>
+            <v-btn
+                @click="resetTable"
+                class="bg-grey-darken-3 text-uppercase"
+            >Reset Table</v-btn>
         </v-row>
     </v-container>
 
@@ -88,14 +91,20 @@ function resetTable() {
     <v-table
         height="calc(100vh - 160px)"
         fixed-header
-        class="mx-16 mb-4 rounded-lg"
+        class="mx-16 mb-4
+               rounded-lg
+               tracks-table"
     >
-        <thead>
-        <tr>
-            <th :style="{ width: imageSize }"></th>
-            <th class="text-center">Title</th>
-            <th>Length</th>
-            <th>Date</th>
+        <thead class="font-weight-bold
+                   text-subtitle-1
+                   table-heading"
+        >
+            <tr>
+                <th :style="{ width: imageSize }"
+                    style="border-bottom: 0.5px solid white !important"></th>
+                <th style="border-bottom: 0.5px solid white !important">Title</th>
+                <th style="border-bottom: 0.5px solid white !important">Length</th>
+                <th style="border-bottom: 0.5px solid white !important">Date</th>
             </tr>
         </thead>
         <tbody>
@@ -109,3 +118,13 @@ function resetTable() {
         </tbody>
     </v-table>
 </template>
+
+<style>
+.tracks-table * {
+    font-family: Roboto, sans-serif;
+}
+
+.table-heading * {
+    text-align: center !important;
+}
+</style>
