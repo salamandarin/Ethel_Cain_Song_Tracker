@@ -1,29 +1,27 @@
-# frontend
+# Ethel Cain Song Tracker Frontend Website Setup
 
-This template should help get you started developing with Vue 3 in Vite.
+The frontend is written in [VueJs](https://vuejs.org/), using [Veutify](https://vuetifyjs.com)
 
-## Recommended IDE Setup
+### Prerequisites
+- `node.js` & `npm`
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Customize configuration
+## Frontend Setup
+1. Run the backend (see [Backend README](/backend/README.md))
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+2. While the backend is running, open the project again in another window
 
-## Project Setup
+3. Navigate to the frontend folder
+    ```shell
+    cd frontend
+    ```
 
-```sh
-npm install
-```
+4. Install dependencies
+    ```shell
+    npm install
+    ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+5. Run the Vue site
+    ```shell
+    npm run dev
+    ```

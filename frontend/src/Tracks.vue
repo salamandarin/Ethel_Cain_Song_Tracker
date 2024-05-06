@@ -2,8 +2,10 @@
 import { ref, computed } from 'vue'
 import TrackRow from './components/TrackRow.vue'
 
-const tracks = ref([])
+// image size (change this value to update)
+const imageSize = ref('6vh')
 
+const tracks = ref([])
 fetch('http://localhost:8000/listtracks', {
     method: 'POST'
 })
@@ -38,7 +40,7 @@ function songSearch() {
         });
     })
     .catch(error => {
-        searchError.value = `No tracks with the title '${searchInput.value.trim()}' were found`
+        searchError.value = `No tracks matching '${searchInput.value.trim()}' were found`
     });
 }
 
@@ -63,6 +65,7 @@ function resetTable() {
 </script>
 
 <template>
+    <!--  search box  -->
     <v-container class="mt-2">
         <v-row>
             <v-text-field
@@ -74,24 +77,33 @@ function resetTable() {
                 variant="outlined"
                 clearable
                 density="compact"
-                class="mr-3"
+                class="mr-3 mt-2"
             ></v-text-field>
 
-            <v-btn class="bg-grey-darken-3" @click="resetTable">Reset Table</v-btn>
+            <v-btn
+                @click="resetTable"
+                class="bg-grey-darken-3 mt-3"
+            >Reset Table</v-btn>
         </v-row>
     </v-container>
 
+    <!--  tracks table  -->
     <v-table
-        density="compact"
-        height="calc(100vh - 160px)" fixed-header
-        class="mx-16 mb-4 rounded-lg"
+        height="calc(100vh - 160px)"
+        fixed-header
+        class="mx-16 mb-4
+               rounded-lg
+               tracks-table"
     >
-        <thead>
-        <tr>
-            <th></th>
-            <th class="text-center">Title</th>
-            <th>Length</th>
-            <th>Date</th>
+        <thead class="table-heading">
+            <tr>
+                <th :style="{ width: imageSize }"
+                    style="border-bottom: 0.5px solid #4a4a4a !important"></th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">Track Title</th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">
+                    <v-icon icon="mdi-clock-outline" size="small"></v-icon>
+                </th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">Date</th>
             </tr>
         </thead>
         <tbody>
@@ -100,7 +112,29 @@ function resetTable() {
                 :length="track.TrackLength"
                 :date="track.TrackDate"
                 :image_name="track.TrackImage"
+                :image_size="imageSize"
             ></TrackRow>
         </tbody>
     </v-table>
 </template>
+
+<style>
+.tracks-table * {
+    font-family: Roboto, sans-serif;
+}
+
+.table-heading * {
+    font-size: 16px;
+    height: 40px !important;
+
+    text-align: center !important;
+    font-weight: bold;
+    color: #858585;
+}
+
+.v-messages__message {
+    font-size: 16px;
+    color: #ffaeae;
+    padding-bottom: 3px;
+}
+</style>
