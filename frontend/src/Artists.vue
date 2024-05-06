@@ -13,17 +13,23 @@ fetch('http://localhost:8000/listartists', {
     data.forEach(artist => {
         raw_artists.value.push(artist)
     });
+    // filter artists down to just display Hayden & her side projects / aliases
     artists.value = raw_artists.value.filter(raw_artists => raw_artists.ArtistRealName === "Hayden");
 })
 </script>
 
 <template>
-    <h1 class="artists-header">Side Projects</h1>
+    <h1 class="artists-header">— Side Projects —</h1>
 
-    <v-container class="artists-page">
+    <v-container class="artists-page mb-5">
         <v-row>
-            <v-col cols="6" v-for="artist in artists" :key="artist.ArtistId">
-                <ArtistCard :artist_name="artist.ArtistName" :real_name="artist.ArtistRealName"></ArtistCard>
+            <v-col cols="4" v-for="artist in artists" :key="artist.ArtistId">
+                <ArtistCard
+                    :artist_name="artist.ArtistName"
+                    :real_name="artist.ArtistRealName"
+                    :image_name="artist.ArtistImage"
+                    :description="artist.ArtistDescription"
+                ></ArtistCard>
             </v-col>
         </v-row>
     </v-container>
@@ -37,7 +43,7 @@ fetch('http://localhost:8000/listartists', {
 .artists-header {
     margin-top: 15px;
     text-align: center;
-    font-size: 50px;
+    font-size: 35px;
     color: #8e8e8e;
 }
 </style>
