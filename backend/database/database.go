@@ -26,7 +26,7 @@ func GetAllTracks(db *sql.DB) []models.Tracks {
 
 		row.Scan(&trackId, &title, &length, &date, &album, &artist, &image, &notes)
 		lengthInStr := secondsToMinutes(length)
-		
+
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
@@ -57,7 +57,7 @@ func GetAllArtists(db *sql.DB) []models.Artists {
 		var artistDescription *string
 
 		row.Scan(&artistId, &artistName, &artistRealName, &artistImage, &artistDescription)
-		
+
 		artist := models.Artists{
 			ArtistId:          artistId,
 			ArtistName:        artistName,
@@ -106,7 +106,6 @@ func GetTrackByReleaseDate(db *sql.DB, releaseDate *string) []models.Tracks {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer row.Close()
 	var tracks []models.Tracks
 	for row.Next() {
@@ -121,7 +120,7 @@ func GetTrackByReleaseDate(db *sql.DB, releaseDate *string) []models.Tracks {
 
 		row.Scan(&trackId, &title, &length, &date, &album, &artist, &image, &notes)
 		lengthInStr := secondsToMinutes(length)
-		
+
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
@@ -154,10 +153,10 @@ func GetTrackByArtistId(db *sql.DB, artistId []int) []models.Tracks {
 			var artist *int
 			var image *string
 			var notes *string
-	
+
 			row.Scan(&trackId, &title, &length, &date, &album, &artist, &image, &notes)
 			lengthInStr := secondsToMinutes(length)
-			
+
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
@@ -180,7 +179,6 @@ func GetTrackBySongName(db *sql.DB, songName string) []models.Tracks {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer row.Close()
 	var tracks []models.Tracks
 	for row.Next() {
@@ -195,7 +193,7 @@ func GetTrackBySongName(db *sql.DB, songName string) []models.Tracks {
 
 		row.Scan(&trackId, &title, &length, &date, &album, &artist, &image, &notes)
 		lengthInStr := secondsToMinutes(length)
-		
+
 		track := models.Tracks{
 			TrackId:     trackId,
 			TrackTitle:  title,
@@ -259,10 +257,10 @@ func GetTrackByAlbumId(db *sql.DB, albumId []int) []models.Tracks {
 			var artist *int
 			var image *string
 			var notes *string
-	
+
 			row.Scan(&trackId, &title, &length, &date, &album, &artist, &image, &notes)
 			lengthInStr := secondsToMinutes(length)
-			
+
 			track := models.Tracks{
 				TrackId:     trackId,
 				TrackTitle:  title,
@@ -285,7 +283,6 @@ func GetAlbumId(db *sql.DB, albumName string) []int {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer row.Close()
 	var albums []int
 	for row.Next() {
@@ -316,7 +313,6 @@ func GetArtistId(db *sql.DB, artistName string) []int {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer row.Close()
 	var artists []int
 	for row.Next() {

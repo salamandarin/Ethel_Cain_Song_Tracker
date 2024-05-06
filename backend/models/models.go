@@ -26,5 +26,4 @@ type Tracks struct {
 	Artist      *int
 	TrackImage  *string
 	TrackNotes  *string
-
 }
