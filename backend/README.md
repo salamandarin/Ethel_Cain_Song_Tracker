@@ -8,6 +8,8 @@
     - Run in order the SQL commands found in the `db-tables.sql` file to create the tables
     - Run in order the SQL commands found in the `insert-data.sql` file to fill the tables with data
         - This file should be updated with any new data, if it is to remain the source of truth for the database.
+- The database structure currently looks like this:
+    ![EthelCain.db Diagram](./database/EthelCain.db_diagram.png)
 
 ## Setup and Start Backend
 - [Download and install Go](https://go.dev/doc/install)
