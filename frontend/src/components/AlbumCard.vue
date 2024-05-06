@@ -24,7 +24,7 @@ fetch('http://localhost:8000/searchfortracksonalbum', {
 </script>
 
 <template>
-    <v-card class="pa-3 rounded-lg artist-card">
+    <v-card class="pa-3 rounded-lg album-card">
         <!-- album image -->
         <v-img v-if="image_name === 'Colossus.jpg'"
                width="100%"
@@ -51,9 +51,7 @@ fetch('http://localhost:8000/searchfortracksonalbum', {
         <!-- tracklist expansion panel -->
         <v-expansion-panels>
             <v-expansion-panel>
-                <v-expansion-panel-title
-                    class="tracklist-title text-medium-emphasis"
-                >Tracklist</v-expansion-panel-title>
+                <v-expansion-panel-title class="text-medium-emphasis">Tracklist</v-expansion-panel-title>
                 <v-expansion-panel-text class="tracklist">
                     <v-list density="compact" class="pl-2 bg-grey-darken-4 rounded">
                         <!-- numbered tracklist -->
@@ -70,11 +68,11 @@ fetch('http://localhost:8000/searchfortracksonalbum', {
 </template>
 
 <style>
-.artist-card * {
+.album-card * {
     font-family: "IM Fell English", serif !important;
 }
 
 .tracklist * {
-    padding: 0px !important;
+    padding: 0 !important;
 }
 </style>
