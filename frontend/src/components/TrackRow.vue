@@ -15,6 +15,8 @@ const props = defineProps({
             v-if="!image_name"
             :height="image_size"
             :width="image_size"
+            min-height="50px"
+            min-width="50px"
             class="mx-2 my-1 rounded"
             :src="`../../public/images/misc/track_placeholder.jpg`"
         ></v-img>
@@ -23,6 +25,8 @@ const props = defineProps({
             v-else
             :height="image_size"
             :width="image_size"
+            min-height="50px"
+            min-width="50px"
             class="mx-2 my-1 rounded"
             :src="`../../public/images/cover_art/${image_name}.jpg`"
         ></v-img>

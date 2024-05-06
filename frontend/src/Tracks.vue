@@ -77,12 +77,12 @@ function resetTable() {
                 variant="outlined"
                 clearable
                 density="compact"
-                class="mr-3"
+                class="mr-3 mt-2"
             ></v-text-field>
 
             <v-btn
                 @click="resetTable"
-                class="bg-grey-darken-3 text-uppercase"
+                class="bg-grey-darken-3 mt-3"
             >Reset Table</v-btn>
         </v-row>
     </v-container>
@@ -95,16 +95,15 @@ function resetTable() {
                rounded-lg
                tracks-table"
     >
-        <thead class="font-weight-bold
-                   text-subtitle-1
-                   table-heading"
-        >
+        <thead class="table-heading">
             <tr>
                 <th :style="{ width: imageSize }"
-                    style="border-bottom: 0.5px solid white !important"></th>
-                <th style="border-bottom: 0.5px solid white !important">Title</th>
-                <th style="border-bottom: 0.5px solid white !important">Length</th>
-                <th style="border-bottom: 0.5px solid white !important">Date</th>
+                    style="border-bottom: 0.5px solid #4a4a4a !important"></th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">Track Title</th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">
+                    <v-icon icon="mdi-clock-outline" size="small"></v-icon>
+                </th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">Date</th>
             </tr>
         </thead>
         <tbody>
@@ -125,6 +124,17 @@ function resetTable() {
 }
 
 .table-heading * {
+    font-size: 16px;
+    height: 40px !important;
+
     text-align: center !important;
+    font-weight: bold;
+    color: #858585;
+}
+
+.v-messages__message {
+    font-size: 16px;
+    color: #ffaeae;
+    padding-bottom: 3px;
 }
 </style>
