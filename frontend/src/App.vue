@@ -30,7 +30,7 @@ const currentView = computed(() => {
             <v-list-item prepend-icon="mdi-home-circle" href="#/" title="Home" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-playlist-music" href="#/tracks" title="Tracks" @click="drawer= !drawer"></v-list-item>
             <v-list-item prepend-icon="mdi-album" href="#/albums" title="Albums" @click="drawer= !drawer"></v-list-item>
-            <v-list-item prepend-icon="mdi-account-box-multiple" href="#/artists" title="Artists" @click="drawer= !drawer"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-box-multiple" href="#/artists" title="Side Projects" @click="drawer= !drawer"></v-list-item>
         </v-navigation-drawer>
         <v-app-bar>
             <v-app-bar-nav-icon @click="drawer= !drawer"></v-app-bar-nav-icon>
