@@ -1,31 +1,24 @@
 --------- ADD ARTISTS ---------
 INSERT INTO artists (artist_id, artist_name, artist_real_name, artist_image, artist_description)
-VALUES (1, 'Ethel Cain', 'Hayden', 'Spotify_2023.jpg',
-        'Ethel Cain is the main project of Hayden Silas Anhedonia. She started the Ethel Cain project in 2019 after scrapping White Silas. Ethel Cain is technically a fictional character, and her story is told in Hayden''s debut album "Preacher''s Daughter."'),
-       (2, 'White Silas', 'Hayden', 'White_Silas_3.png',
-        'White Silas Hayden''s old project, which spanned from roughly 2018 - 2019. There are several EPs & albums under the moniker. Some of the sounds rougher due to being some of her oldest work and she was still learning how to produce. She also put out two EPs under this name in collaboration with Little Triste'),
-       (3, 'ΛTLΛS (Atlas)', 'Hayden', 'Atlas_2.jpg',
-        'Atlas is likely the first moniker that Hayden released music under, but then she later changed it to White Silas instead after releasing the album Colossus'),
-       (4, 'tommy / Miss Anhedonia', 'Hayden', 'tommy_2024.jpg',
-        'Tommy is one of Hayden''s side projects, and it exists only on Soundcloud. It consists of slightly more experimental sounds than her normal work, and tends to be more trap or pop inspired. It used to be known as Miss Anhedonia, but she later changed the username to tommygunbaby'),
-       (5, 'אשמדאי', 'Hayden', 'ashmedaii_2024.jpg',
-        'Ashmedaii is Hayden''s ambient side project, and it exists only on Soundcloud. It consists of exclusively instrumental ambient tracks'),
-       (6, 'whiine', 'Hayden', 'whiine.jpg',
-        'Whiine is the newest of Hayden''s Soundcloud side projects, so it only has one song so far. This may be a collaboration project between her and Vyva Melinkolya, but I am not sure'),
-       (7, 'Witchcest', 'Hayden', 'Witchcest',
-        'This project was lost media for a long time until recently. It seems to be the oldest (or one of the oldest) known projects of Hayden since it dates back to 2017. Only one song is known to come from it, and I''m unsure if there are more'),
-       (8, 'little triste', 'aelyx', 'little_triste.png', ''),
-       (9, 'YAH WAV', 'aelyx', 'YAH_WAV.jpg', ''),
-       (10, 'Edith Underground', 'Salem', 'E_DEATH.jpg', ''),
-       (11, 'Florence + The Machine', '', 'Florence.jpg', ''),
-       (12, 'Kabel', '', '', ''),
-       (13, 'josephine pineconey', '', '', ''),
-       (14, 'honey whiskey', 'Kelsey Gibson', '', ''),
-       (15, 'Gutter Punk', '', '', ''),
-       (16, 'ollin miller', '', '', ''),
-       (17, 'Vyva Melinkolya', '', '', ''),
-       (18, 'Ashnikko', '', '', '')
-
+VALUES
+    (1,'Ethel Cain','Hayden','Spotify_2023.jpg','Ethel Cain is the main project of Hayden Silas Anhedonia. She started the Ethel Cain project in 2019 after scrapping White Silas. Ethel Cain is technically a fictional character, and her story is told in Hayden''s debut album "Preacher''s Daughter."'),
+    (2,'White Silas','Hayden','White_Silas_3.png','White Silas Hayden''s old project, which spanned from roughly 2018 - 2019. There are several EPs & albums under the moniker. Some of the sounds rougher due to being some of her oldest work and she was still learning how to produce. She also put out two EPs under this name in collaboration with Little Triste'),
+    (3,'ΛTLΛS (Atlas)','Hayden','Atlas_2.jpg','Atlas is likely the first moniker that Hayden released music under, but then she later changed it to White Silas instead after releasing the album Colossus'),
+    (4,'tommy / Miss Anhedonia','Hayden','tommy_2024.jpg','Tommy is one of Hayden''s side projects, and it exists only on Soundcloud. It consists of slightly more experimental sounds than her normal work, and tends to be more trap or pop inspired. It used to be known as Miss Anhedonia, but she later changed the username to tommygunbaby'),
+    (5,'אשמדאי','Hayden','ashmedaii_2024.jpg','Ashmedaii is Hayden''s ambient side project, and it exists only on Soundcloud. It consists of exclusively instrumental ambient tracks'),
+    (6,'whiine','Hayden','whiine.jpg','Whiine is the newest of Hayden''s Soundcloud side projects, so it only has one song so far. This may be a collaboration project between her and Vyva Melinkolya, but I am not sure'),
+    (7,'Witchcest','Hayden','Witchcest.jpg','This project was lost media for a long time until recently. It seems to be the oldest (or one of the oldest) known projects of Hayden since it dates back to 2017. Only one song is known to come from it, and I''m unsure if there are more'),
+    (8,'little triste','aelyx','little_triste.png',''),
+    (9,'YAH WAV','aelyx','YAH_WAV.jpg',''),
+    (10,'Edith Underground','Salem','E_DEATH.jpg',''),
+    (11,'Florence + The Machine','','Florence.jpg',''),
+    (12,'Kabel','','',''),
+    (13,'josephine pineconey','','',''),
+    (14,'honey whiskey','Kelsey Gibson','',''),
+    (15,'Gutter Punk','','',''),
+    (16,'ollin miller','','',''),
+    (17,'Vyva Melinkolya','','',''),
+    (18,'Ashnikko','','','')
 
 --------- ADD ALBUMS ---------
 INSERT INTO albums (album_id, album_title, album_date, album_image, album_description, album_artist)

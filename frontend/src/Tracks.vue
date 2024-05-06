@@ -97,6 +97,7 @@ function resetTable() {
     >
         <thead class="table-heading">
             <tr>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">#</th>
                 <th :style="{ width: imageSize }"
                     style="border-bottom: 0.5px solid #4a4a4a !important"></th>
                 <th style="border-bottom: 0.5px solid #4a4a4a !important">Track Title</th>
@@ -108,6 +109,7 @@ function resetTable() {
         </thead>
         <tbody>
             <TrackRow v-for="track in filteredTracks" :key="track.TrackId"
+                :track_id="track.TrackId"
                 :title="track.TrackTitle"
                 :length="track.TrackLength"
                 :date="track.TrackDate"
