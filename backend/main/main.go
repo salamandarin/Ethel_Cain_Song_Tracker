@@ -201,6 +201,7 @@ func getTrackBySongNameHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	enableCors(&w)
 	w.Write(tracksJson)
 }
 

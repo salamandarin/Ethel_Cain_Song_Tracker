@@ -27,7 +27,7 @@ fetch('http://localhost:8000/searchfortracksonalbum', {
     <v-card>
         <v-card-title class="font-weight-bold">{{ title }}</v-card-title>
         <v-card-subtitle class="font-weight-bold">{{ date }}</v-card-subtitle>
-        <v-img width="100%" :src="`../../public/images/albums/${image_name}`"></v-img>
+        <v-img width="100%" :src="`../../public/images/cover_art/${image_name}`"></v-img>
         <br>
         <v-expansion-panels>
             <v-expansion-panel class="font-weight-bold" title="Tracklist">
