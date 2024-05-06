@@ -1,15 +1,29 @@
 package models
 
-type Track struct {
-	TrackId int
-	Title   string
-	Length  int
-	Date    string
-	Artist  string
+type Albums struct {
+	AlbumId          int
+	AlbumTitle       string
+	AlbumDate        *string
+	Artist           *int
+	AlbumImage       *string
+	AlbumDescription *string
 }
 
-type Album struct {
-	AlbumId int
-	Title   string
-	Date    string
+type Artists struct {
+	ArtistId          int
+	ArtistName        string
+	ArtistRealName    *string
+	ArtistImage       *string
+	ArtistDescription *string
+}
+
+type Tracks struct {
+	TrackId     int
+	TrackTitle  string
+	TrackLength string
+	TrackDate   *string
+	Album       *int
+	Artist      *int
+	TrackImage  *string
+	TrackNotes  *string
 }
