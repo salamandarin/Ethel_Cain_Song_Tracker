@@ -25,9 +25,13 @@ func main() {
 	defer ethelCainDatabase.Close()
 
 	router.HandleFunc("/", hello).Methods(http.MethodPost)
+	
 	router.HandleFunc("/listtracks", getTracksHandler).Methods(http.MethodPost)
 	router.HandleFunc("/listartists", getArtistsHandler).Methods(http.MethodPost)
 	router.HandleFunc("/listalbums", getAlbumsHandler).Methods(http.MethodPost)
+
+	router.HandleFunc("/getartistid", getArtistIdHandler).Methods(http.MethodPost)
+	router.HandleFunc("/getalbumid", getAlbumIdHandler).Methods(http.MethodPost)
 
 	router.HandleFunc("/searchbyreleasedate", getTrackByReleaseDateHandler).Methods(http.MethodPost)
 	router.HandleFunc("/searchbyartist", getTrackByArtistHandler).Methods(http.MethodPost)
@@ -68,6 +72,52 @@ func getArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	enableCors(&w)
 	w.Write(artistsJson)
+}
+
+func getArtistIdHandler(w http.ResponseWriter, r *http.Request) {
+	var artist models.Artists
+
+	err := json.NewDecoder(r.Body).Decode(&artist)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	artistId := ethelcaindb.GetArtistId(ethelCainDatabase, artist.ArtistName)
+	if len(artistId) == 0 {
+		w.Write([]byte("Artist not found"))
+		return
+	}
+	artistIdJson, err := json.Marshal(map[string][]int{"ArtistId": artistId})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	enableCors(&w)
+	w.Write(artistIdJson)
+}
+
+func getAlbumIdHandler(w http.ResponseWriter, r *http.Request) {
+	var album models.Albums
+
+	err := json.NewDecoder(r.Body).Decode(&album)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	albumId := ethelcaindb.GetAlbumId(ethelCainDatabase, album.AlbumTitle)
+	if len(albumId) == 0 {
+		w.Write([]byte("Album not found"))
+		return
+	}
+	albumsIdJson, err := json.Marshal(map[string][]int{"AlbumId": albumId})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(albumsIdJson)
 }
 
 func getAlbumsHandler(w http.ResponseWriter, r *http.Request) {
@@ -151,6 +201,7 @@ func getTrackBySongNameHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	enableCors(&w)
 	w.Write(tracksJson)
 }
 
@@ -198,6 +249,7 @@ func getTracksOnAlbumHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	enableCors(&w)
 	w.Write(tracksJson)
 }
 

@@ -1,7 +1,7 @@
 <script setup>
 import {ref} from 'vue'
 
-defineProps({
+const props = defineProps({
     title: String,
     date: String,
     image_name: String,
@@ -9,12 +9,14 @@ defineProps({
 
 const tracklist = ref([])
 
-fetch('http://localhost:8000/gettrackbyalbum', {
-    method: 'POST'
+fetch('http://localhost:8000/searchfortracksonalbum', {
+    method: 'POST',
+    body: JSON.stringify({
+        "AlbumTitle" : props.title
+    })
 })
 .then(response => response.json())
 .then(data => {
-    console.log(data)
     data.forEach(track => {
         tracklist.value.push(track)
     });
@@ -22,20 +24,42 @@ fetch('http://localhost:8000/gettrackbyalbum', {
 </script>
 
 <template>
-    <v-card>
-        <v-card-title>{{ title }}</v-card-title>
-        <v-card-subtitle>{{ date }}</v-card-subtitle>
-        <v-img width="100%" :src="`../../public/images/albums/${image_name}`"></v-img>
-        <br>
+    <v-card class="pa-3 rounded-lg album-card">
+        <!-- album image -->
+        <v-img v-if="image_name === 'Colossus.jpg'"
+               width="100%"
+               class="rounded"
+               :src="`../../public/images/artists/Atlas_2.jpg`"
+        ></v-img>
+        <v-img v-else
+               width="100%"
+               class="rounded"
+               :src="`../../public/images/cover_art/${image_name}`"
+        ></v-img>
+
+        <!-- title & subtitle -->
+        <v-card-title class="text-h4
+                             font-weight-bold
+                             text-center
+                             text-wrap
+                             mt-1 pb-1"
+        >{{ title }}</v-card-title>
+        <v-card-subtitle
+            class="text-h6 text-center mb-1"
+        >{{ date }}</v-card-subtitle>
+
+        <!-- tracklist expansion panel -->
         <v-expansion-panels>
-            <v-expansion-panel title="Tracklist">
-                <v-expansion-panel-text>
-                    <v-list density="compact">
-                        <v-list-item
-                            v-for="track in tracklist"
-                            :key="track"
-                            :title="track"
-                        ></v-list-item>
+            <v-expansion-panel>
+                <v-expansion-panel-title class="text-medium-emphasis">Tracklist</v-expansion-panel-title>
+                <v-expansion-panel-text class="tracklist">
+                    <v-list density="compact" class="pl-2 bg-grey-darken-4 rounded">
+                        <!-- numbered tracklist -->
+                        <v-list-item v-for="(track, index) in tracklist" :key="track.TrackId" class="my-0 py-0">
+                            <v-list-item-title
+                                style="font-size: 14px;"
+                            >{{ index + 1 }}. {{ track.TrackTitle }}</v-list-item-title>
+                        </v-list-item>
                     </v-list>
                 </v-expansion-panel-text>
             </v-expansion-panel>
@@ -43,3 +67,12 @@ fetch('http://localhost:8000/gettrackbyalbum', {
     </v-card>
 </template>
 
+<style>
+.album-card * {
+    font-family: "IM Fell English", serif !important;
+}
+
+.tracklist * {
+    padding: 0 !important;
+}
+</style>

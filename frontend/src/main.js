@@ -17,6 +17,7 @@ const EthelCainDark = {
     colors: {
         background: '#382413', // middle ground between attempt #1 & navigation drawer
         surface: '#000000',
+        secondary: '#242424',
     },
 }
 

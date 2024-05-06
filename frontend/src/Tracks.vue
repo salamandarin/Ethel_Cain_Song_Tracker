@@ -1,76 +1,140 @@
 <script setup>
-import {ref} from 'vue'
+import { ref, computed } from 'vue'
+import TrackRow from './components/TrackRow.vue'
+
+// image size (change this value to update)
+const imageSize = ref('6vh')
 
 const tracks = ref([])
-
 fetch('http://localhost:8000/listtracks', {
     method: 'POST'
 })
-.then(response => response.json())
-.then(data => {
-    data.forEach(track => {
-        tracks.value.push(track)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(track => {
+            tracks.value.push(track)
+        });
+    })
+
+
+const searchInput = ref("")
+const searchResults = ref([])
+const searchError = ref("")
+
+// search for song by title
+function songSearch() {
+    // make sure old results & errors are cleared
+    searchResults.value = []
+    searchError.value = ""
+
+    fetch('http://localhost:8000/searchbysongname', {
+        method: 'POST',
+        body: JSON.stringify({
+            "TrackTitle": searchInput.value.trim()
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(track => {
+            searchResults.value.push(track)
+        });
+    })
+    .catch(error => {
+        searchError.value = `No tracks matching '${searchInput.value.trim()}' were found`
     });
+}
+
+// filter tracks
+const filteredTracks = computed(() => {
+    // if no search results, return all tracks
+    if (searchResults.value.length === 0) {
+        return tracks.value
+    }
+    // otherwise return search results
+    else {
+        return searchResults.value
+    }
 })
 
-
-const expanded = ref([])
-const search = ref([])
+// reset table
+function resetTable() {
+    searchInput.value = "" // clear search bar
+    searchResults.value = [] // clear results
+    searchError.value = ""
+}
 </script>
 
 <template>
-    <!-- <v-table
-        density="compact"
-        theme="dark"
-        height="calc(100vh - 64px)" fixed-header
-    >  64px is height of app-bar
-        <thead>
-            <tr>
-                <th>Track</th>
-                <th>Length</th>
-                <th>Date</th>
-                <th>Album</th>
-                <th>Artist</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="track in tracks" :key="track.TrackId">
-                <td>{{ track.Title }}</td>
-                <td>{{ track.Length }}</td>
-                <td>{{ track.Date }}</td>
-                <td>{{ track.Album }}</td>
-                <td>{{ track.Artist }}</td>
-            </tr>
-        </tbody>
-    </v-table> -->
-
-    <v-app>
-        <v-container>
+    <!--  search box  -->
+    <v-container class="mt-2">
+        <v-row>
             <v-text-field
-                v-model="search"
+                v-model="searchInput"
+                @keydown.enter="songSearch"
+                :error-messages="searchError"
                 label="Search"
                 prepend-inner-icon="mdi-magnify"
                 variant="outlined"
                 clearable
                 density="compact"
-                hide-details
-                single-line
+                class="mr-3 mt-2"
             ></v-text-field>
-            <v-data-table
-                v-model:expanded="expanded"
-                :items="tracks"
-                :search="search"
-                item-value="TrackId"
-                density="compact"
-                show-expand
-            >
-                <template v-slot:expanded-row="{ columns, item }">
-                    <tr>
-                        <td :colspan="columns.length">
-                            &lt; put notes about {{ item.Title }} here &gt;</td>
-                    </tr>
-                </template>
-            </v-data-table>
-        </v-container>
-    </v-app>
+
+            <v-btn
+                @click="resetTable"
+                class="bg-grey-darken-3 mt-3"
+            >Reset Table</v-btn>
+        </v-row>
+    </v-container>
+
+    <!--  tracks table  -->
+    <v-table
+        height="calc(100vh - 160px)"
+        fixed-header
+        class="mx-16 mb-4
+               rounded-lg
+               tracks-table"
+    >
+        <thead class="table-heading">
+            <tr>
+                <th :style="{ width: imageSize }"
+                    style="border-bottom: 0.5px solid #4a4a4a !important"></th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">Track Title</th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">
+                    <v-icon icon="mdi-clock-outline" size="small"></v-icon>
+                </th>
+                <th style="border-bottom: 0.5px solid #4a4a4a !important">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <TrackRow v-for="track in filteredTracks" :key="track.TrackId"
+                :title="track.TrackTitle"
+                :length="track.TrackLength"
+                :date="track.TrackDate"
+                :image_name="track.TrackImage"
+                :image_size="imageSize"
+            ></TrackRow>
+        </tbody>
+    </v-table>
 </template>
+
+<style>
+.tracks-table * {
+    font-family: Roboto, sans-serif;
+}
+
+.table-heading * {
+    font-size: 16px;
+    height: 40px !important;
+
+    text-align: center !important;
+    font-weight: bold;
+    color: #858585;
+}
+
+.v-messages__message {
+    font-size: 16px;
+    color: #ffaeae;
+    padding-bottom: 3px;
+}
+</style>
