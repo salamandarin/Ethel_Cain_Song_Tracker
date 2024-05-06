@@ -18,7 +18,7 @@ fetch('http://localhost:8000/listalbums', {
 </script>
 
 <template>
-    <v-container>
+    <v-container class="mb-7">
         <v-row>
             <v-col cols="4" v-for="album in albums" :key="album.AlbumId">
                 <AlbumCard :title="album.AlbumTitle" :date="album.AlbumDate" :image_name="album.AlbumImage"></AlbumCard>

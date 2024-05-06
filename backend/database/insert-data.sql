@@ -7,7 +7,7 @@ VALUES
     (4,'tommy / Miss Anhedonia','Hayden','tommy_2024.jpg','Tommy is one of Hayden''s side projects, and it exists only on Soundcloud. It consists of slightly more experimental sounds than her normal work, and tends to be more trap or pop inspired. It used to be known as Miss Anhedonia, but she later changed the username to tommygunbaby'),
     (5,'אשמדאי','Hayden','ashmedaii_2024.jpg','Ashmedaii is Hayden''s ambient side project, and it exists only on Soundcloud. It consists of exclusively instrumental ambient tracks'),
     (6,'whiine','Hayden','whiine.jpg','Whiine is the newest of Hayden''s Soundcloud side projects, so it only has one song so far. This may be a collaboration project between her and Vyva Melinkolya, but I am not sure'),
-    (7,'Witchcest','Hayden','Witchcest','This project was lost media for a long time until recently. It seems to be the oldest (or one of the oldest) known projects of Hayden since it dates back to 2017. Only one song is known to come from it, and I''m unsure if there are more'),
+    (7,'Witchcest','Hayden','Witchcest.jpg','This project was lost media for a long time until recently. It seems to be the oldest (or one of the oldest) known projects of Hayden since it dates back to 2017. Only one song is known to come from it, and I''m unsure if there are more'),
     (8,'little triste','aelyx','little_triste.png',''),
     (9,'YAH WAV','aelyx','YAH_WAV.jpg',''),
     (10,'Edith Underground','Salem','E_DEATH.jpg',''),
